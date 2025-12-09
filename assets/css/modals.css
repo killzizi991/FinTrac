@@ -1,1 +1,441 @@
+/* assets/css/modals.css */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+    font-size: 22px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--secondary-color);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    background-color: #f5f5f5;
+    color: var(--danger-color);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.operations-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.operations-section {
+    padding: 15px;
+    border-radius: var(--border-radius);
+    background-color: #f8f9fa;
+}
+
+.operations-section h3 {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid;
+}
+
+.income-section h3 {
+    color: var(--success-color);
+    border-bottom-color: var(--success-color);
+}
+
+.expense-section h3 {
+    color: var(--danger-color);
+    border-bottom-color: var(--danger-color);
+}
+
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.category-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+    border: 2px solid transparent;
+}
+
+.income-category {
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.income-category:hover {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.expense-category {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.expense-category:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.operations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.operation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: white;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.operation-item--income {
+    border-left-color: var(--success-color);
+}
+
+.operation-item--expense {
+    border-left-color: var(--danger-color);
+}
+
+.operation-info {
+    flex: 1;
+}
+
+.operation-category {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.operation-description {
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.operation-amount {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.operation-income {
+    color: var(--success-color);
+}
+
+.operation-expense {
+    color: var(--danger-color);
+}
+
+.operation-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.operation-delete {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.operation-delete:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.categories-manager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.categories-section {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.categories-section h3 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.add-category-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.add-category-form input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+}
+
+.managed-category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 8px;
+    border-radius: var(--border-radius);
+}
+
+.managed-category-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.report-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.report-summary {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.report-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.report-item.total {
+    border-top: 2px solid #ddd;
+    border-bottom: none;
+    margin-top: 10px;
+    padding-top: 15px;
+    font-weight: 700;
+}
+
+.report-comparison {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.report-comparison h4 {
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.report-categories {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.category-report-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.category-report-item.top-3 {
+    background-color: #fff8e1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+.export-import-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.export-import-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.export-import-section h3 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.export-actions,
+.import-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.file-input-label {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.file-input-label:hover {
+    background-color: var(--primary-dark);
+}
+
+.json-preview textarea,
+.json-input textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.json-preview textarea {
+    background-color: #f8f9fa;
+    color: #666;
+}
+
+.import-warning {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff3cd;
+    border-radius: var(--border-radius);
+    color: #856404;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .operations-sections,
+    .categories-manager,
+    .report-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+}
