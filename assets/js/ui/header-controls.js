@@ -83,10 +83,6 @@ class HeaderControls {
         document.dispatchEvent(new CustomEvent('month-changed', {
             detail: { year: CURRENT_YEAR, month: CURRENT_MONTH }
         }));
-        
-        // Показываем уведомление
-        const monthName = getMonthName(CURRENT_MONTH);
-        showNotification(`Перешли на ${monthName} ${CURRENT_YEAR}`, NOTIFICATION_TYPES.INFO);
     }
     
     updateMonthDisplay() {
@@ -178,7 +174,7 @@ class HeaderControls {
     
     installPWA() {
         if (!window.deferredPrompt) {
-            showNotification('Приложение уже установлено', NOTIFICATION_TYPES.INFO);
+            console.log('Приложение уже установлено');
             return;
         }
         
@@ -186,10 +182,10 @@ class HeaderControls {
         
         window.deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                showNotification('Приложение успешно установлено!', NOTIFICATION_TYPES.SUCCESS);
+                console.log('Приложение успешно установлено!');
                 this.hideInstallButton();
             } else {
-                showNotification('Установка отменена', NOTIFICATION_TYPES.WARNING);
+                console.log('Установка отменена');
             }
             window.deferredPrompt = null;
         });
