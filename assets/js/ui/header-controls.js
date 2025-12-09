@@ -4,6 +4,7 @@ class HeaderControls {
         this.prevMonthBtn = document.getElementById('prev-month');
         this.nextMonthBtn = document.getElementById('next-month');
         this.monthSummaryBtn = document.getElementById('month-summary-btn');
+        this.categoryManagerBtn = document.getElementById('category-manager-btn');
         this.settingsBtn = document.getElementById('settings-btn');
         this.addOperationBtn = document.getElementById('add-operation-btn');
         this.installBtn = document.getElementById('install-btn');
@@ -26,6 +27,13 @@ class HeaderControls {
         if (this.monthSummaryBtn) {
             this.monthSummaryBtn.addEventListener('click', () => {
                 this.showMonthSummary();
+            });
+        }
+        
+        // Управление категориями
+        if (this.categoryManagerBtn) {
+            this.categoryManagerBtn.addEventListener('click', () => {
+                modalManager.showCategoryManager();
             });
         }
         
@@ -128,6 +136,11 @@ class HeaderControls {
                     case 'M':
                         e.preventDefault();
                         this.monthSummaryBtn?.click();
+                        break;
+                    case 'c':
+                    case 'C':
+                        e.preventDefault();
+                        this.categoryManagerBtn?.click();
                         break;
                 }
             }
