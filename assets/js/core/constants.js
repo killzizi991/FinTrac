@@ -1,4 +1,5 @@
 // assets/js/core/constants.js
+// assets/js/core/constants.js
 const STORAGE_KEY = 'financial_calendar_data';
 const CACHE_NAME = 'financial_calendar_v1';
 const APP_VERSION = '1.0.0';
@@ -32,7 +33,9 @@ const MODAL_TYPES = {
     CATEGORY_MANAGER: 'category-manager',
     REPORT: 'report',
     EXPORT_IMPORT: 'export-import',
-    CONFIRM: 'confirm'
+    CONFIRM: 'confirm',
+    MONTH_SUMMARY: 'month-summary',
+    SETTINGS: 'settings'
 };
 
 const NOTIFICATION_TYPES = {
