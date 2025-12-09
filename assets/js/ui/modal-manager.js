@@ -122,6 +122,9 @@ class ModalManager {
                 
                 comparisonEl.textContent = comparisonText;
             }
+            
+            // Генерируем отчет по категориям
+            this.generateMonthCategoryReport();
         });
     }
     
@@ -642,6 +645,46 @@ class ModalManager {
                 }
             });
         });
+    }
+    
+    generateMonthCategoryReport() {
+        const categoryTotals = getCategoryTotals();
+        
+        const incomeContainer = document.getElementById('modal-income-categories-report');
+        const expenseContainer = document.getElementById('modal-expense-categories-report');
+        
+        incomeContainer.innerHTML = '';
+        expenseContainer.innerHTML = '';
+        
+        // Категории доходов
+        if (categoryTotals.income && Object.keys(categoryTotals.income).length > 0) {
+            Object.entries(categoryTotals.income).forEach(([category, amount]) => {
+                const item = document.createElement('div');
+                item.className = 'category-report-item';
+                item.innerHTML = `
+                    <span>${escapeHtml(category)}</span>
+                    <span class="income">${formatCurrency(amount)}</span>
+                `;
+                incomeContainer.appendChild(item);
+            });
+        } else {
+            incomeContainer.innerHTML = '<div class="empty-state">Нет данных</div>';
+        }
+        
+        // Категории расходов
+        if (categoryTotals.expense && Object.keys(categoryTotals.expense).length > 0) {
+            Object.entries(categoryTotals.expense).forEach(([category, amount]) => {
+                const item = document.createElement('div');
+                item.className = 'category-report-item';
+                item.innerHTML = `
+                    <span>${escapeHtml(category)}</span>
+                    <span class="expense">${formatCurrency(amount)}</span>
+                `;
+                expenseContainer.appendChild(item);
+            });
+        } else {
+            expenseContainer.innerHTML = '<div class="empty-state">Нет данных</div>';
+        }
     }
 }
 
