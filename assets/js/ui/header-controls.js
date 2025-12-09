@@ -3,11 +3,9 @@ class HeaderControls {
     constructor() {
         this.prevMonthBtn = document.getElementById('prev-month');
         this.nextMonthBtn = document.getElementById('next-month');
-        this.categoriesManagerBtn = document.getElementById('categories-manager-btn');
-        this.exportImportBtn = document.getElementById('export-import-btn');
-        this.reportsBtn = document.getElementById('reports-btn');
+        this.monthSummaryBtn = document.getElementById('month-summary-btn');
+        this.settingsBtn = document.getElementById('settings-btn');
         this.addOperationBtn = document.getElementById('add-operation-btn');
-        this.clearDataBtn = document.getElementById('clear-data-btn');
         this.installBtn = document.getElementById('install-btn');
         this.currentMonthYearEl = document.getElementById('current-month-year');
         
@@ -24,28 +22,17 @@ class HeaderControls {
             this.nextMonthBtn.addEventListener('click', () => this.navigateMonth(1));
         }
         
-        // Управление категориями
-        if (this.categoriesManagerBtn) {
-            this.categoriesManagerBtn.addEventListener('click', () => {
-                modalManager.showCategoryManager();
+        // Итоги за месяц
+        if (this.monthSummaryBtn) {
+            this.monthSummaryBtn.addEventListener('click', () => {
+                this.showMonthSummary();
             });
         }
         
-        // Экспорт/импорт
-        if (this.exportImportBtn) {
-            this.exportImportBtn.addEventListener('click', () => {
-                modalManager.open(MODAL_TYPES.EXPORT_IMPORT);
-                // Инициализируем данные экспорта
-                initExportImport();
-            });
-        }
-        
-        // Отчеты
-        if (this.reportsBtn) {
-            this.reportsBtn.addEventListener('click', () => {
-                modalManager.open(MODAL_TYPES.REPORT);
-                // Обновляем данные отчета
-                updateReports();
+        // Настройки
+        if (this.settingsBtn) {
+            this.settingsBtn.addEventListener('click', () => {
+                modalManager.open(MODAL_TYPES.SETTINGS);
             });
         }
         
@@ -53,23 +40,6 @@ class HeaderControls {
         if (this.addOperationBtn) {
             this.addOperationBtn.addEventListener('click', () => {
                 modalManager.showAddOperationForm();
-            });
-        }
-        
-        // Очистка данных
-        if (this.clearDataBtn) {
-            this.clearDataBtn.addEventListener('click', () => {
-                modalManager.showConfirm(
-                    'Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.',
-                    'Очистка всех данных'
-                ).then(confirmed => {
-                    if (confirmed) {
-                        if (clearAllData()) {
-                            generateCalendar();
-                            updateMonthSummary();
-                        }
-                    }
-                });
             });
         }
         
@@ -108,9 +78,6 @@ class HeaderControls {
         
         // Генерируем новый календарь
         generateCalendar();
-        
-        // Обновляем сводку
-        updateMonthSummary();
         
         // Отправляем событие
         document.dispatchEvent(new CustomEvent('month-changed', {
@@ -156,20 +123,15 @@ class HeaderControls {
                         e.preventDefault();
                         this.addOperationBtn?.click();
                         break;
-                    case 'e':
-                    case 'E':
+                    case 's':
+                    case 'S':
                         e.preventDefault();
-                        this.exportImportBtn?.click();
+                        this.settingsBtn?.click();
                         break;
-                    case 'r':
-                    case 'R':
+                    case 'm':
+                    case 'M':
                         e.preventDefault();
-                        this.reportsBtn?.click();
-                        break;
-                    case 'c':
-                    case 'C':
-                        e.preventDefault();
-                        this.categoriesManagerBtn?.click();
+                        this.monthSummaryBtn?.click();
                         break;
                 }
             }
@@ -182,6 +144,36 @@ class HeaderControls {
                 }
             }
         });
+    }
+    
+    showMonthSummary() {
+        modalManager.open(MODAL_TYPES.MONTH_SUMMARY);
+        
+        // Обновляем данные в модальном окне
+        const totals = calculateMonthTotals();
+        const prevTotals = getPreviousMonthTotals();
+        
+        document.getElementById('modal-total-income').textContent = formatCurrency(totals.income);
+        document.getElementById('modal-total-expense').textContent = formatCurrency(totals.expense);
+        document.getElementById('modal-total-balance').textContent = formatCurrency(totals.balance);
+        
+        const comparisonEl = document.getElementById('modal-comparison-text');
+        if (comparisonEl) {
+            const incomeChange = totals.income - prevTotals.income;
+            const expenseChange = totals.expense - prevTotals.expense;
+            
+            let comparisonText = 'Сравнение с предыдущим месяцем: ';
+            
+            if (incomeChange !== 0) {
+                comparisonText += `Доходы: ${incomeChange > 0 ? '+' : ''}${formatCurrency(incomeChange)} `;
+            }
+            
+            if (expenseChange !== 0) {
+                comparisonText += `Расходы: ${expenseChange > 0 ? '+' : ''}${formatCurrency(expenseChange)}`;
+            }
+            
+            comparisonEl.textContent = comparisonText;
+        }
     }
     
     installPWA() {
