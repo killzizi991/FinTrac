@@ -67,10 +67,9 @@ class ExportImportManager {
             
             downloadFile(filename, jsonString);
             
-            showNotification('Данные успешно экспортированы', NOTIFICATION_TYPES.SUCCESS);
+            console.log('Данные успешно экспортированы');
         } catch (error) {
             console.error('Ошибка экспорта:', error);
-            showNotification('Ошибка при экспорте данных', NOTIFICATION_TYPES.ERROR);
         }
     }
     
@@ -80,14 +79,12 @@ class ExportImportManager {
             const jsonString = JSON.stringify(data, null, 2);
             
             copyToClipboard(jsonString).then(() => {
-                showNotification('Данные скопированы в буфер обмена', NOTIFICATION_TYPES.SUCCESS);
+                console.log('Данные скопированы в буфер обмена');
             }).catch(err => {
                 console.error('Ошибка копирования:', err);
-                showNotification('Ошибка при копировании данных', NOTIFICATION_TYPES.ERROR);
             });
         } catch (error) {
             console.error('Ошибка подготовки данных:', error);
-            showNotification('Ошибка при подготовке данных', NOTIFICATION_TYPES.ERROR);
         }
     }
     
@@ -96,7 +93,7 @@ class ExportImportManager {
         if (!file) return;
         
         if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
-            showNotification('Пожалуйста, выберите JSON файл', NOTIFICATION_TYPES.ERROR);
+            console.log('Пожалуйста, выберите JSON файл');
             return;
         }
         
@@ -109,16 +106,15 @@ class ExportImportManager {
                     document.getElementById('import-json-text').value = content;
                     document.getElementById('import-execute-btn').disabled = false;
                 } else {
-                    showNotification('Неверный формат JSON файла', NOTIFICATION_TYPES.ERROR);
+                    console.log('Неверный формат JSON файла');
                 }
             } catch (error) {
                 console.error('Ошибка чтения файла:', error);
-                showNotification('Ошибка при чтении файла', NOTIFICATION_TYPES.ERROR);
             }
         };
         
         reader.onerror = () => {
-            showNotification('Ошибка при чтении файла', NOTIFICATION_TYPES.ERROR);
+            console.log('Ошибка при чтении файла');
         };
         
         reader.readAsText(file);
@@ -137,14 +133,13 @@ class ExportImportManager {
                 
                 if (this.validateImportData(text)) {
                     document.getElementById('import-execute-btn').disabled = false;
-                    showNotification('Данные вставлены из буфера обмена', NOTIFICATION_TYPES.SUCCESS);
+                    console.log('Данные вставлены из буфера обмена');
                 } else {
-                    showNotification('Неверный формат JSON в буфере обмена', NOTIFICATION_TYPES.ERROR);
+                    console.log('Неверный формат JSON в буфере обмена');
                 }
             }
         } catch (error) {
             console.error('Ошибка чтения из буфера обмена:', error);
-            showNotification('Ошибка при чтении из буфера обмена', NOTIFICATION_TYPES.ERROR);
         }
     }
     
@@ -186,7 +181,7 @@ class ExportImportManager {
         const jsonString = importTextArea.value.trim();
         
         if (!this.validateImportData(jsonString)) {
-            showNotification('Неверный формат JSON данных', NOTIFICATION_TYPES.ERROR);
+            console.log('Неверный формат JSON данных');
             return;
         }
         
@@ -202,7 +197,7 @@ class ExportImportManager {
             const success = dataManager.importData(data, true);
             
             if (success) {
-                showNotification('Данные успешно импортированы', NOTIFICATION_TYPES.SUCCESS);
+                console.log('Данные успешно импортированы');
                 importTextArea.value = '';
                 
                 // Закрываем модальное окно
@@ -212,11 +207,10 @@ class ExportImportManager {
                 generateCalendar();
                 updateMonthSummary();
             } else {
-                showNotification('Ошибка при импорте данных', NOTIFICATION_TYPES.ERROR);
+                console.log('Ошибка при импорте данных');
             }
         } catch (error) {
             console.error('Ошибка импорта:', error);
-            showNotification('Ошибка при импорте данных', NOTIFICATION_TYPES.ERROR);
         }
     }
     
@@ -237,7 +231,7 @@ class ExportImportManager {
         const operations = dataManager.getAllOperations();
         
         if (operations.length === 0) {
-            showNotification('Нет данных для экспорта', NOTIFICATION_TYPES.WARNING);
+            console.log('Нет данных для экспорта');
             return;
         }
         
@@ -246,7 +240,7 @@ class ExportImportManager {
         
         downloadFile(filename, csvContent, 'text/csv;charset=utf-8;');
         
-        showNotification('Данные экспортированы в CSV', NOTIFICATION_TYPES.SUCCESS);
+        console.log('Данные экспортированы в CSV');
     }
     
     exportReportToPDF() {
@@ -313,7 +307,7 @@ class ExportImportManager {
         const now = new Date();
         localStorage.setItem('last_backup', now.toISOString());
         
-        showNotification('Расписание резервного копирования обновлено', NOTIFICATION_TYPES.SUCCESS);
+        console.log('Расписание резервного копирования обновлено');
     }
     
     getBackupInfo() {
