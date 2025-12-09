@@ -77,7 +77,6 @@ function saveAppData() {
         return true;
     } catch (error) {
         console.error('Ошибка сохранения данных:', error);
-        showNotification('Ошибка сохранения данных', NOTIFICATION_TYPES.ERROR);
         return false;
     }
 }
@@ -127,15 +126,12 @@ function getOperationsByMonth(year, month) {
 function addOperation(operation) {
     const validation = validateOperation(operation);
     if (!validation.valid) {
-        showNotification(validation.error, NOTIFICATION_TYPES.ERROR);
+        console.error(validation.error);
         return false;
     }
     
     APP_DATA.operations.push(operation);
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Операция добавлена', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
@@ -146,7 +142,7 @@ function updateOperation(id, updates) {
     const updatedOperation = { ...APP_DATA.operations[index], ...updates };
     const validation = validateOperation(updatedOperation);
     if (!validation.valid) {
-        showNotification(validation.error, NOTIFICATION_TYPES.ERROR);
+        console.error(validation.error);
         return false;
     }
     
@@ -160,32 +156,23 @@ function deleteOperation(id) {
     
     APP_DATA.operations.splice(index, 1);
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Операция удалена', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
 function clearAllData() {
     APP_DATA.operations = [];
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Все данные очищены', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
 function importData(newData) {
     if (!newData.settings || !newData.operations) {
-        showNotification('Неверный формат данных', NOTIFICATION_TYPES.ERROR);
+        console.error('Неверный формат данных');
         return false;
     }
     
     APP_DATA = deepClone(newData);
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Данные успешно импортированы', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
@@ -341,15 +328,12 @@ function addCategory(type, category) {
     }
     
     if (APP_DATA.settings.categories[type].includes(category)) {
-        showNotification('Категория уже существует', NOTIFICATION_TYPES.WARNING);
+        console.log('Категория уже существует');
         return false;
     }
     
     APP_DATA.settings.categories[type].push(category);
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Категория добавлена', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
@@ -364,9 +348,6 @@ function removeCategory(type, category) {
     
     APP_DATA.settings.categories[type].splice(index, 1);
     const saved = saveAppData();
-    if (saved) {
-        showNotification('Категория удалена', NOTIFICATION_TYPES.SUCCESS);
-    }
     return saved;
 }
 
@@ -375,7 +356,7 @@ function renameCategory(type, oldName, newName) {
     if (oldIndex === -1) return false;
     
     if (APP_DATA.settings.categories[type].includes(newName)) {
-        showNotification('Категория с таким названием уже существует', NOTIFICATION_TYPES.WARNING);
+        console.log('Категория с таким названием уже существует');
         return false;
     }
     
