@@ -41,7 +41,7 @@ class OfflineHandler {
         this.online = true;
         this.updateOnlineStatus();
         
-        showNotification('Соединение восстановлено', NOTIFICATION_TYPES.SUCCESS);
+        console.log('Соединение восстановлено');
         
         // Пытаемся синхронизировать данные при восстановлении соединения
         this.syncData();
@@ -59,7 +59,7 @@ class OfflineHandler {
         this.online = false;
         this.updateOnlineStatus();
         
-        showNotification('Вы в офлайн режиме. Данные будут сохранены локально.', NOTIFICATION_TYPES.WARNING);
+        console.log('Вы в офлайн режиме. Данные будут сохранены локально.');
         
         // Отправляем сообщение в Service Worker об отключении сети
         if (navigator.serviceWorker && navigator.serviceWorker.controller) {
@@ -132,10 +132,10 @@ class OfflineHandler {
             this.updateOnlineStatus();
             
             if (this.online) {
-                showNotification('Соединение восстановлено', NOTIFICATION_TYPES.SUCCESS);
+                console.log('Соединение восстановлено');
                 this.syncData();
             } else {
-                showNotification('Соединение потеряно', NOTIFICATION_TYPES.WARNING);
+                console.log('Соединение потеряно');
             }
         }
     }
@@ -193,7 +193,7 @@ class OfflineHandler {
             // Сохраняем данные для повторной попытки
             localStorage.setItem('pending_sync', 'true');
             
-            showNotification('Ошибка синхронизации данных', NOTIFICATION_TYPES.ERROR);
+            console.error('Ошибка синхронизации данных');
         }
     }
     
@@ -221,7 +221,7 @@ class OfflineHandler {
     }
     
     handleStorageQuotaExceeded() {
-        showNotification('Закончилось место в хранилище. Очищаем старые данные...', NOTIFICATION_TYPES.WARNING);
+        console.log('Закончилось место в хранилище. Очищаем старые данные...');
         
         // Удаляем старые операции (старше 6 месяцев)
         const sixMonthsAgo = new Date();
@@ -241,13 +241,10 @@ class OfflineHandler {
             
             updateAppData(data);
             
-            showNotification(
-                `Удалено ${oldOperations.length} старых операций для освобождения места`,
-                NOTIFICATION_TYPES.INFO
-            );
+            console.log(`Удалено ${oldOperations.length} старых операций для освобождения места`);
         } else {
             // Если старых данных нет, очищаем все
-            showNotification('Не удалось освободить место. Попробуйте экспортировать и очистить данные.', NOTIFICATION_TYPES.ERROR);
+            console.log('Не удалось освободить место. Попробуйте экспортировать и очистить данные.');
         }
     }
     
@@ -291,22 +288,18 @@ class OfflineHandler {
             }
             
             if (!backup) {
-                showNotification('Резервная копия не найдена', NOTIFICATION_TYPES.ERROR);
+                console.log('Резервная копия не найдена');
                 return false;
             }
             
             // Восстанавливаем данные
             dataManager.importData(backup.data, true);
             
-            showNotification(
-                `Данные восстановлены из резервной копии от ${new Date(backup.timestamp).toLocaleString()}`,
-                NOTIFICATION_TYPES.SUCCESS
-            );
+            console.log(`Данные восстановлены из резервной копии от ${new Date(backup.timestamp).toLocaleString()}`);
             
             return true;
         } catch (error) {
             console.error('Ошибка восстановления из резервной копии:', error);
-            showNotification('Ошибка при восстановлении данных', NOTIFICATION_TYPES.ERROR);
             return false;
         }
     }
@@ -388,7 +381,7 @@ class OfflineHandler {
                     // Перезагружаем Service Worker
                     await registration.unregister();
                     
-                    showNotification('Кэш очищен', NOTIFICATION_TYPES.SUCCESS);
+                    console.log('Кэш очищен');
                     setTimeout(() => location.reload(), 1000);
                     return true;
                 }
@@ -396,7 +389,6 @@ class OfflineHandler {
             return false;
         } catch (error) {
             console.error('Ошибка очистки кэша:', error);
-            showNotification('Ошибка очистки кэша', NOTIFICATION_TYPES.ERROR);
             return false;
         }
     }
