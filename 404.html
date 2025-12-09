@@ -1,1 +1,177 @@
+<!-- 404.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена - Финансовый календарь</title>
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./assets/icons/icon-192x192.png">
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            color: #4a6cf7;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .error-message {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .home-button {
+            padding: 12px 30px;
+            background-color: #4a6cf7;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #4a6cf7;
+        }
+        
+        .home-button:hover {
+            background-color: #3a5ce5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 108, 247, 0.3);
+        }
+        
+        .back-button {
+            padding: 12px 30px;
+            background-color: white;
+            color: #4a6cf7;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #4a6cf7;
+        }
+        
+        .back-button:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            color: #4a6cf7;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 80px;
+            }
+            
+            .error-title {
+                font-size: 24px;
+            }
+            
+            .error-message {
+                font-size: 16px;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .home-button, .back-button {
+                width: 100%;
+            }
+        }
+        
+        .error-footer {
+            margin-top: 40px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .error-footer a {
+            color: #4a6cf7;
+            text-decoration: none;
+        }
+        
+        .error-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="error-container">
+        <div class="error-icon">📊</div>
+        <div class="error-code">404</div>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-message">
+            Извините, запрашиваемая страница не существует или была перемещена. 
+            Возможно, вы перешли по устаревшей ссылке или ввели неправильный адрес.
+        </p>
+        <div class="error-actions">
+            <a href="./" class="home-button">На главную</a>
+            <a href="javascript:history.back()" class="back-button">Назад</a>
+        </div>
+        <div class="error-footer">
+            <p>Финансовый календарь PWA &copy; 2023</p>
+            <p>Если проблема повторяется, <a href="mailto:support@example.com">свяжитесь с поддержкой</a></p>
+        </div>
+    </div>
 
+    <script>
+        // Перенаправление на главную страницу для SPA
+        if (window.location.pathname !== '/') {
+            // Сохраняем оригинальный путь для возможного использования
+            sessionStorage.setItem('redirectPath', window.location.pathname);
+            
+            // Перенаправляем на главную через короткую задержку
+            setTimeout(() => {
+                window.location.href = './';
+            }, 5000);
+        }
+
+        // Проверяем, установлено ли приложение как PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('Запущено как установленное PWA');
+        }
+
+        // Добавляем метаданные для поисковых систем
+        document.addEventListener('DOMContentLoaded', function() {
+            const metaDescription = document.createElement('meta');
+            metaDescription.name = 'description';
+            metaDescription.content = 'PWA приложение для учета доходов и расходов с календарным интерфейсом. Страница 404.';
+            document.head.appendChild(metaDescription);
+        });
+    </script>
+</body>
+</html>
