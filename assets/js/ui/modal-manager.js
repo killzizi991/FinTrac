@@ -84,7 +84,6 @@ class ModalManager {
                     if (confirmed) {
                         if (clearAllData()) {
                             generateCalendar();
-                            showNotification('Все данные очищены', NOTIFICATION_TYPES.SUCCESS);
                         }
                     }
                 });
@@ -484,14 +483,14 @@ class ModalManager {
         const requiredFields = ['type', 'category', 'amount', 'date'];
         for (const field of requiredFields) {
             if (!formData.get(field)) {
-                showNotification(`Поле "${field}" обязательно для заполнения`, NOTIFICATION_TYPES.ERROR);
+                console.log(`Поле "${field}" обязательно для заполнения`);
                 return;
             }
         }
         
         const amount = parseFloat(formData.get('amount'));
         if (isNaN(amount) || amount <= 0) {
-            showNotification('Сумма должна быть положительным числом', NOTIFICATION_TYPES.ERROR);
+            console.log('Сумма должна быть положительным числом');
             return;
         }
         
