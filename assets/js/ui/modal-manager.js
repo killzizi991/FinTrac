@@ -51,7 +51,7 @@ class ModalManager {
     }
     
     initSettingsModal() {
-        const settingsModal = this.modals.get(MODAL_TYPES.SETTINGS);
+        const settingsModal = this.modals.get('settings');
         if (!settingsModal) return;
         
         // Обработчик для переключения темы
@@ -66,8 +66,8 @@ class ModalManager {
         const exportImportBtn = settingsModal.querySelector('#modal-export-import-btn');
         if (exportImportBtn) {
             exportImportBtn.addEventListener('click', () => {
-                this.close(MODAL_TYPES.SETTINGS);
-                this.open(MODAL_TYPES.EXPORT_IMPORT);
+                this.close('settings');
+                this.open('export-import');
                 initExportImport();
             });
         }
@@ -76,7 +76,7 @@ class ModalManager {
         const clearDataBtn = settingsModal.querySelector('#modal-clear-data-btn');
         if (clearDataBtn) {
             clearDataBtn.addEventListener('click', () => {
-                this.close(MODAL_TYPES.SETTINGS);
+                this.close('settings');
                 this.showConfirm(
                     'Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.',
                     'Очистка всех данных'
@@ -93,7 +93,7 @@ class ModalManager {
     }
     
     initMonthSummaryModal() {
-        const monthSummaryModal = this.modals.get(MODAL_TYPES.MONTH_SUMMARY);
+        const monthSummaryModal = this.modals.get('month-summary');
         if (!monthSummaryModal) return;
         
         // При открытии обновляем данные
@@ -247,7 +247,7 @@ class ModalManager {
     
     showConfirm(message, title = 'Подтверждение') {
         return new Promise((resolve) => {
-            const modal = this.modals.get(MODAL_TYPES.CONFIRM);
+            const modal = this.modals.get('confirm');
             if (!modal) {
                 resolve(false);
                 return;
@@ -260,13 +260,13 @@ class ModalManager {
             // Обработчики кнопок
             const handleConfirm = () => {
                 cleanup();
-                this.close(MODAL_TYPES.CONFIRM);
+                this.close('confirm');
                 resolve(true);
             };
             
             const handleCancel = () => {
                 cleanup();
-                this.close(MODAL_TYPES.CONFIRM);
+                this.close('confirm');
                 resolve(false);
             };
             
@@ -279,7 +279,7 @@ class ModalManager {
             modal.querySelector('#confirm-cancel').addEventListener('click', handleCancel, { once: true });
             
             // Открываем модальное окно
-            this.open(MODAL_TYPES.CONFIRM);
+            this.open('confirm');
         });
     }
     
@@ -288,7 +288,7 @@ class ModalManager {
         const dateString = formatDate(date);
         
         // Устанавливаем заголовок
-        const modal = this.modals.get(MODAL_TYPES.DAY_OPERATIONS);
+        const modal = this.modals.get('day-operations');
         modal.querySelector('#modal-day-title').textContent = `Операции за ${dateString}`;
         
         // Сохраняем выбранный день
@@ -304,7 +304,7 @@ class ModalManager {
         this.generateOperationsList(operations, day);
         
         // Открываем модальное окно
-        this.open(MODAL_TYPES.DAY_OPERATIONS);
+        this.open('day-operations');
     }
     
     generateCategoryButtons(day, dateString) {
@@ -407,7 +407,7 @@ class ModalManager {
     }
     
     showAddOperationForm(type = null, category = null, date = null) {
-        const modal = this.modals.get(MODAL_TYPES.ADD_OPERATION);
+        const modal = this.modals.get('add-operation');
         
         // Устанавливаем заголовок
         const title = modal.querySelector('#add-operation-title');
@@ -451,7 +451,7 @@ class ModalManager {
         });
         
         // Открываем модальное окно
-        this.open(MODAL_TYPES.ADD_OPERATION);
+        this.open('add-operation');
         
         // Фокус на сумму
         setTimeout(() => {
@@ -476,24 +476,40 @@ class ModalManager {
     
     handleAddOperationFormSubmit(form) {
         const formData = new FormData(form);
+        
+        // Проверяем, что все обязательные поля заполнены
+        const requiredFields = ['type', 'category', 'amount', 'date'];
+        for (const field of requiredFields) {
+            if (!formData.get(field)) {
+                showNotification(`Поле "${field}" обязательно для заполнения`, NOTIFICATION_TYPES.ERROR);
+                return;
+            }
+        }
+        
+        const amount = parseFloat(formData.get('amount'));
+        if (isNaN(amount) || amount <= 0) {
+            showNotification('Сумма должна быть положительным числом', NOTIFICATION_TYPES.ERROR);
+            return;
+        }
+        
         const operation = {
             id: generateId(),
             date: formatDate(new Date(formData.get('date'))),
             type: formData.get('type'),
             category: formData.get('category'),
-            amount: parseFloat(formData.get('amount')),
+            amount: amount,
             description: formData.get('description') || ''
         };
         
         if (addOperation(operation)) {
             // Закрываем модальное окно
-            this.close(MODAL_TYPES.ADD_OPERATION);
+            this.close('add-operation');
             
             // Обновляем календарь
             generateCalendar();
             
             // Если открыто модальное окно дня, обновляем его
-            if (this.isOpen(MODAL_TYPES.DAY_OPERATIONS)) {
+            if (this.isOpen('day-operations')) {
                 const day = getSelectedDay();
                 const operations = getDayOperations(day);
                 this.generateOperationsList(operations, day);
@@ -505,10 +521,10 @@ class ModalManager {
     }
     
     showCategoryManager() {
-        const modal = this.modals.get(MODAL_TYPES.CATEGORY_MANAGER);
+        const modal = this.modals.get('category-manager');
         this.generateCategoryManagerLists();
         this.setupCategoryManagerHandlers();
-        this.open(MODAL_TYPES.CATEGORY_MANAGER);
+        this.open('category-manager');
     }
     
     generateCategoryManagerLists() {
