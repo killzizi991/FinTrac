@@ -68,52 +68,13 @@ class ServiceWorkerRegister {
         if (!window.showUpdateNotification) {
             window.showUpdateNotification = true;
             
-            const notification = showNotification(
-                'Доступна новая версия приложения. Обновить?',
-                NOTIFICATION_TYPES.INFO,
-                10000
-            );
-            
-            // Добавляем кнопку обновления
-            setTimeout(() => {
-                const notificationEl = document.querySelector(`[data-notification-id="${notification}"]`);
-                if (notificationEl) {
-                    const updateBtn = document.createElement('button');
-                    updateBtn.textContent = 'Обновить';
-                    updateBtn.className = 'notification-update-btn';
-                    updateBtn.style.marginLeft = '10px';
-                    updateBtn.style.padding = '2px 8px';
-                    updateBtn.style.border = '1px solid #4a6cf7';
-                    updateBtn.style.borderRadius = '3px';
-                    updateBtn.style.background = '#4a6cf7';
-                    updateBtn.style.color = 'white';
-                    updateBtn.style.cursor = 'pointer';
-                    
-                    updateBtn.addEventListener('click', () => {
-                        this.updateServiceWorker();
-                    });
-                    
-                    const actions = notificationEl.querySelector('.notification-actions') || 
-                        document.createElement('div');
-                    actions.className = 'notification-actions';
-                    actions.style.display = 'flex';
-                    actions.style.gap = '5px';
-                    actions.style.marginTop = '5px';
-                    
-                    actions.appendChild(updateBtn);
-                    
-                    const content = notificationEl.querySelector('.notification-content');
-                    if (content) {
-                        content.appendChild(actions);
-                    }
-                }
-            }, 100);
+            console.log('Доступна новая версия приложения. Обновить?');
         }
     }
     
     async updateServiceWorker() {
         if (!this.registration || !this.registration.waiting) {
-            showNotification('Нет обновлений для установки', NOTIFICATION_TYPES.WARNING);
+            console.log('Нет обновлений для установки');
             return;
         }
         
@@ -125,7 +86,6 @@ class ServiceWorkerRegister {
             window.location.reload();
         } catch (error) {
             console.error('Ошибка при обновлении Service Worker:', error);
-            showNotification('Ошибка при обновлении', NOTIFICATION_TYPES.ERROR);
         }
     }
     
@@ -136,7 +96,7 @@ class ServiceWorkerRegister {
                 break;
                 
             case 'OFFLINE_DETECTED':
-                showNotification('Вы в офлайн режиме. Данные будут сохранены локально.', NOTIFICATION_TYPES.WARNING);
+                console.log('Вы в офлайн режиме. Данные будут сохранены локально.');
                 break;
                 
             case 'SYNC_REGISTERED':
@@ -170,8 +130,6 @@ class ServiceWorkerRegister {
             console.log('Приложение установлено');
             headerControls.hideInstallButton();
             window.deferredPrompt = null;
-            
-            showNotification('Приложение успешно установлено!', NOTIFICATION_TYPES.SUCCESS);
         });
     }
     
@@ -182,11 +140,9 @@ class ServiceWorkerRegister {
             const unregistered = await this.registration.unregister();
             if (unregistered) {
                 console.log('Service Worker удален');
-                showNotification('Service Worker удален', NOTIFICATION_TYPES.SUCCESS);
             }
         } catch (error) {
             console.error('Ошибка при удалении Service Worker:', error);
-            showNotification('Ошибка при удалении Service Worker', NOTIFICATION_TYPES.ERROR);
         }
     }
     
