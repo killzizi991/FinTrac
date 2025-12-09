@@ -113,6 +113,7 @@
                     <div class="form-group">
                         <label for="operation-type">Тип операции</label>
                         <select id="operation-type" name="type" required>
+                            <option value="">Выберите тип</option>
                             <option value="income">Доход</option>
                             <option value="expense">Расход</option>
                         </select>
@@ -121,6 +122,7 @@
                     <div class="form-group">
                         <label for="operation-category">Категория</label>
                         <select id="operation-category" name="category" required>
+                            <option value="">Выберите категорию</option>
                             <!-- Категории заполняются JavaScript -->
                         </select>
                     </div>
@@ -141,13 +143,14 @@
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="secondary-button modal-close">Отмена</button>
+                        <button type="button" class="secondary-button cancel-button">Отмена</button>
                         <button type="submit" class="primary-button">Добавить</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 
     <!-- Модальное окно управления категориями -->
     <div id="category-manager-modal" class="modal" data-modal-type="category-manager">
@@ -368,3 +371,4 @@
     <script src="./assets/js/core/app.js"></script>
 </body>
 </html>
+
