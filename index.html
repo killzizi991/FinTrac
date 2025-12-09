@@ -5,7 +5,350 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Финансовый календарь - PWA для учета доходов и расходов">
     <title>Финансовый календарь</title>
+    <link rel="stylesheet" href="./assets/css/main.css"><!-- index.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовый календарь</title>
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/calendar.css">
+    <link rel="stylesheet" href="./assets/css/modals.css">
+    <link rel="stylesheet" href="./assets/css/themes.css">
+    <link rel="stylesheet" href="./assets/css/ui-components.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="./assets/icons/icon-72x72.png">
+    <meta name="theme-color" content="#4a6cf7">
+</head>
+<body class="light-theme">
+    <div class="app-container">
+        <!-- Хедер -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="app-title">Финансовый календарь</h1>
+                <div class="current-month-display">
+                    <span id="current-month-year">Октябрь 2023</span>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button id="prev-month" class="icon-button" aria-label="Предыдущий месяц">←</button>
+                <button id="next-month" class="icon-button" aria-label="Следующий месяц">→</button>
+                <button id="theme-switcher" class="icon-button" aria-label="Сменить тему">🌙</button>
+                <button id="categories-manager-btn" class="icon-button" aria-label="Управление категориями">📁</button>
+                <button id="export-import-btn" class="icon-button" aria-label="Экспорт/импорт">📤</button>
+                <button id="reports-btn" class="icon-button" aria-label="Отчеты">📊</button>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Календарь -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <div class="day-header">Пн</div>
+                    <div class="day-header">Вт</div>
+                    <div class="day-header">Ср</div>
+                    <div class="day-header">Чт</div>
+                    <div class="day-header">Пт</div>
+                    <div class="day-header">Сб</div>
+                    <div class="day-header">Вс</div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid">
+                    <!-- Календарь генерируется JavaScript -->
+                </div>
+            </div>
+
+            <!-- Боковая панель с суммами -->
+            <aside class="sidebar">
+                <div class="summary-card">
+                    <h3>Итоги за месяц</h3>
+                    <div class="summary-item">
+                        <span class="summary-label">Доходы:</span>
+                        <span id="total-income" class="summary-value income">0 ₽</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Расходы:</span>
+                        <span id="total-expense" class="summary-value expense">0 ₽</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="summary-label">Баланс:</span>
+                        <span id="total-balance" class="summary-value balance">0 ₽</span>
+                    </div>
+                    <div class="summary-comparison">
+                        <small id="comparison-text">Сравнение с прошлым месяцем</small>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button id="add-operation-btn" class="primary-button">
+                        <span>+ Добавить операцию</span>
+                    </button>
+                    <button id="clear-data-btn" class="secondary-button">
+                        <span>Очистить данные</span>
+                    </button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Футер -->
+        <footer class="app-footer">
+            <div class="footer-info">
+                <span>Финансовый календарь PWA</span>
+                <span id="storage-status" class="status-indicator">🟢 Данные сохранены</span>
+                <span id="offline-status" class="status-indicator">🟢 Онлайн</span>
+            </div>
+            <button id="install-btn" class="install-button" style="display: none;">
+                Установить приложение
+            </button>
+        </footer>
+    </div>
+
+    <!-- Модальные окна -->
+    
+    <!-- Модальное окно дня -->
+    <div id="day-operations-modal" class="modal" data-modal-type="day-operations">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-day-title">Операции за 15.10.23</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="operations-sections">
+                    <!-- Доходы -->
+                    <section class="operations-section income-section">
+                        <h3>Доходы</h3>
+                        <div class="categories-list" id="income-categories">
+                            <!-- Категории доходов генерируются JavaScript -->
+                        </div>
+                        <div class="operations-list" id="income-operations-list">
+                            <!-- Список операций доходов -->
+                        </div>
+                    </section>
+                    
+                    <!-- Расходы -->
+                    <section class="operations-section expense-section">
+                        <h3>Расходы</h3>
+                        <div class="categories-list" id="expense-categories">
+                            <!-- Категории расходов генерируются JavaScript -->
+                        </div>
+                        <div class="operations-list" id="expense-operations-list">
+                            <!-- Список операций расходов -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления операции -->
+    <div id="add-operation-modal" class="modal" data-modal-type="add-operation">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="add-operation-title">Добавить операцию</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-operation-form">
+                    <div class="form-group">
+                        <label for="operation-type">Тип операции</label>
+                        <select id="operation-type" name="type" required>
+                            <option value="income">Доход</option>
+                            <option value="expense">Расход</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="operation-category">Категория</label>
+                        <select id="operation-category" name="category" required>
+                            <!-- Категории заполняются JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="operation-amount">Сумма (₽)</label>
+                        <input type="number" id="operation-amount" name="amount" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="operation-description">Описание (необязательно)</label>
+                        <textarea id="operation-description" name="description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="operation-date">Дата</label>
+                        <input type="date" id="operation-date" name="date" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button modal-close">Отмена</button>
+                        <button type="submit" class="primary-button">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно управления категориями -->
+    <div id="category-manager-modal" class="modal" data-modal-type="category-manager">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Управление категориями</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="categories-manager">
+                    <div class="categories-section">
+                        <h3>Категории доходов</h3>
+                        <div class="categories-list" id="managed-income-categories">
+                            <!-- Список категорий доходов -->
+                        </div>
+                        <div class="add-category-form">
+                            <input type="text" id="new-income-category" placeholder="Новая категория дохода">
+                            <button id="add-income-category" class="icon-button">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="categories-section">
+                        <h3>Категории расходов</h3>
+                        <div class="categories-list" id="managed-expense-categories">
+                            <!-- Список категорий расходов -->
+                        </div>
+                        <div class="add-category-form">
+                            <input type="text" id="new-expense-category" placeholder="Новая категория расхода">
+                            <button id="add-expense-category" class="icon-button">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно отчетов -->
+    <div id="report-modal" class="modal" data-modal-type="report">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Отчет за месяц</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="report-content">
+                    <div class="report-summary">
+                        <div class="report-item">
+                            <span>Общий доход:</span>
+                            <span id="report-total-income" class="income">0 ₽</span>
+                        </div>
+                        <div class="report-item">
+                            <span>Общий расход:</span>
+                            <span id="report-total-expense" class="expense">0 ₽</span>
+                        </div>
+                        <div class="report-item total">
+                            <span>Баланс:</span>
+                            <span id="report-balance" class="balance">0 ₽</span>
+                        </div>
+                        <div class="report-comparison">
+                            <h4>Сравнение с предыдущим месяцем</h4>
+                            <div id="comparison-details">
+                                <!-- Данные сравнения -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-categories">
+                        <h3>Категории доходов</h3>
+                        <div id="income-categories-report">
+                            <!-- Отчет по категориям доходов -->
+                        </div>
+                        
+                        <h3>Категории расходов</h3>
+                        <div id="expense-categories-report">
+                            <!-- Отчет по категориям расходов -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно экспорта/импорта -->
+    <div id="export-import-modal" class="modal" data-modal-type="export-import">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Экспорт / Импорт данных</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-import-section">
+                    <h3>Экспорт данных</h3>
+                    <div class="export-actions">
+                        <button id="export-download-btn" class="primary-button">Скачать JSON</button>
+                        <button id="export-copy-btn" class="secondary-button">Копировать JSON</button>
+                    </div>
+                    <div class="json-preview">
+                        <textarea id="export-json-text" readonly rows="8"></textarea>
+                    </div>
+                </div>
+                
+                <div class="export-import-section">
+                    <h3>Импорт данных</h3>
+                    <div class="import-actions">
+                        <label for="import-file" class="file-input-label">
+                            <span>Загрузить файл JSON</span>
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                        </label>
+                        <button id="import-paste-btn" class="secondary-button">Вставить из буфера</button>
+                    </div>
+                    <div class="json-input">
+                        <textarea id="import-json-text" placeholder="Вставьте JSON данные..." rows="6"></textarea>
+                    </div>
+                    <div class="import-warning">
+                        <small>⚠️ Внимание: импорт полностью заменит текущие данные</small>
+                    </div>
+                    <button id="import-execute-btn" class="primary-button" disabled>Импортировать данные</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения -->
+    <div id="confirm-modal" class="modal" data-modal-type="confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="confirm-title">Подтверждение</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Вы уверены, что хотите выполнить это действие?</p>
+                <div class="modal-actions">
+                    <button id="confirm-cancel" class="secondary-button">Отмена</button>
+                    <button id="confirm-ok" class="primary-button">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты -->
+    <script src="./assets/js/core/constants.js"></script>
+    <script src="./assets/js/core/utils.js"></script>
+    <script src="./assets/js/core/state.js"></script>
+    <script src="./assets/js/ui/modal-manager.js"></script>
+    <script src="./assets/js/ui/theme-switcher.js"></script>
+    <script src="./assets/js/ui/notifications.js"></script>
+    <script src="./assets/js/ui/header-controls.js"></script>
+    <script src="./assets/js/modules/data-manager.js"></script>
+    <script src="./assets/js/modules/calendar.js"></script>
+    <script src="./assets/js/modules/operations.js"></script>
+    <script src="./assets/js/modules/categories.js"></script>
+    <script src="./assets/js/modules/reports.js"></script>
+    <script src="./assets/js/modules/export-import.js"></script>
+    <script src="./assets/js/pwa/sw-register.js"></script>
+    <script src="./assets/js/pwa/offline-handler.js"></script>
+    <script src="./assets/js/core/app.js"></script>
+</body>
+</html>
     <link rel="stylesheet" href="./assets/css/calendar.css">
     <link rel="stylesheet" href="./assets/css/modals.css">
     <link rel="stylesheet" href="./assets/css/themes.css">
@@ -297,4 +640,5 @@
     <script src="./assets/js/pwa/sw-register.js"></script>
     <script src="./assets/js/core/app.js"></script>
 </body>
+
 </html>
