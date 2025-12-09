@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Финансовый календарь - PWA для учета доходов и расходов">
-    <title>Финансовый календарь</title>
-    <link rel="stylesheet" href="./assets/css/main.css"><!-- index.html -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -34,10 +27,9 @@
             <div class="header-controls">
                 <button id="prev-month" class="icon-button" aria-label="Предыдущий месяц">←</button>
                 <button id="next-month" class="icon-button" aria-label="Следующий месяц">→</button>
-                <button id="theme-switcher" class="icon-button" aria-label="Сменить тему">🌙</button>
-                <button id="categories-manager-btn" class="icon-button" aria-label="Управление категориями">📁</button>
-                <button id="export-import-btn" class="icon-button" aria-label="Экспорт/импорт">📤</button>
-                <button id="reports-btn" class="icon-button" aria-label="Отчеты">📊</button>
+                <button id="month-summary-btn" class="icon-button" aria-label="Итоги за месяц">📊</button>
+                <button id="settings-btn" class="icon-button" aria-label="Настройки">⚙️</button>
+                <button id="add-operation-btn" class="icon-button" aria-label="Добавить операцию">+</button>
             </div>
         </header>
 
@@ -58,43 +50,11 @@
                     <!-- Календарь генерируется JavaScript -->
                 </div>
             </div>
-
-            <!-- Боковая панель с суммами -->
-            <aside class="sidebar">
-                <div class="summary-card">
-                    <h3>Итоги за месяц</h3>
-                    <div class="summary-item">
-                        <span class="summary-label">Доходы:</span>
-                        <span id="total-income" class="summary-value income">0 ₽</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Расходы:</span>
-                        <span id="total-expense" class="summary-value expense">0 ₽</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span class="summary-label">Баланс:</span>
-                        <span id="total-balance" class="summary-value balance">0 ₽</span>
-                    </div>
-                    <div class="summary-comparison">
-                        <small id="comparison-text">Сравнение с прошлым месяцем</small>
-                    </div>
-                </div>
-
-                <div class="quick-actions">
-                    <button id="add-operation-btn" class="primary-button">
-                        <span>+ Добавить операцию</span>
-                    </button>
-                    <button id="clear-data-btn" class="secondary-button">
-                        <span>Очистить данные</span>
-                    </button>
-                </div>
-            </aside>
         </main>
 
         <!-- Футер -->
         <footer class="app-footer">
             <div class="footer-info">
-                <span>Финансовый календарь PWA</span>
                 <span id="storage-status" class="status-indicator">🟢 Данные сохранены</span>
                 <span id="offline-status" class="status-indicator">🟢 Онлайн</span>
             </div>
@@ -218,6 +178,65 @@
                             <input type="text" id="new-expense-category" placeholder="Новая категория расхода">
                             <button id="add-expense-category" class="icon-button">+</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно итогов за месяц -->
+    <div id="month-summary-modal" class="modal" data-modal-type="month-summary">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Итоги за месяц</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="summary-label">Доходы:</span>
+                        <span id="modal-total-income" class="summary-value income">0 ₽</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Расходы:</span>
+                        <span id="modal-total-expense" class="summary-value expense">0 ₽</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="summary-label">Баланс:</span>
+                        <span id="modal-total-balance" class="summary-value balance">0 ₽</span>
+                    </div>
+                    <div class="summary-comparison">
+                        <small id="modal-comparison-text">Сравнение с прошлым месяцем</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно настроек -->
+    <div id="settings-modal" class="modal" data-modal-type="settings">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Настройки</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Внешний вид</h3>
+                    <button id="modal-theme-switcher" class="primary-button" style="width: 100%; margin-bottom: 15px;">
+                        Переключить тему
+                    </button>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Управление данными</h3>
+                    <div class="settings-actions">
+                        <button id="modal-export-import-btn" class="primary-button" style="width: 100%; margin-bottom: 10px;">
+                            Экспорт / Импорт данных
+                        </button>
+                        <button id="modal-clear-data-btn" class="secondary-button" style="width: 100%;">
+                            Очистить все данные
+                        </button>
                     </div>
                 </div>
             </div>
@@ -348,297 +367,4 @@
     <script src="./assets/js/pwa/offline-handler.js"></script>
     <script src="./assets/js/core/app.js"></script>
 </body>
-</html>
-    <link rel="stylesheet" href="./assets/css/calendar.css">
-    <link rel="stylesheet" href="./assets/css/modals.css">
-    <link rel="stylesheet" href="./assets/css/themes.css">
-    <link rel="stylesheet" href="./assets/css/ui-components.css">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="icon" type="image/x-icon" href="./assets/icons/icon-72x72.png">
-    <meta name="theme-color" content="#2196f3">
-</head>
-<body class="light-theme">
-    <div class="app-container">
-        <header class="app-header">
-            <div class="header-controls">
-                <button id="prev-month" class="btn-icon" aria-label="Предыдущий месяц">←</button>
-                <h1 id="current-month" class="month-title">Октябрь 2023</h1>
-                <button id="next-month" class="btn-icon" aria-label="Следующий месяц">→</button>
-            </div>
-            <div class="header-actions">
-                <button id="theme-toggle" class="btn-icon" aria-label="Переключить тему">🌓</button>
-                <button id="report-btn" class="btn" data-modal-type="report">Отчет</button>
-                <button id="categories-btn" class="btn" data-modal-type="category-manager">Категории</button>
-                <button id="export-import-btn" class="btn" data-modal-type="export-import">Данные</button>
-            </div>
-        </header>
-
-        <main class="main-content">
-            <div class="calendar-container">
-                <div class="calendar-weekdays">
-                    <div class="weekday">Пн</div>
-                    <div class="weekday">Вт</div>
-                    <div class="weekday">Ср</div>
-                    <div class="weekday">Чт</div>
-                    <div class="weekday">Пт</div>
-                    <div class="weekday">Сб</div>
-                    <div class="weekday">Вс</div>
-                </div>
-                <div id="calendar-grid" class="calendar-grid">
-                    <!-- Динамически генерируется -->
-                </div>
-            </div>
-
-            <div class="summary-bar">
-                <div class="summary-item">
-                    <span class="summary-label">Доходы:</span>
-                    <span id="total-income" class="summary-amount income">0 ₽</span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Расходы:</span>
-                    <span id="total-expense" class="summary-amount expense">0 ₽</span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Баланс:</span>
-                    <span id="total-balance" class="summary-amount balance">0 ₽</span>
-                </div>
-            </div>
-        </main>
-
-        <div class="modal-overlay" id="modal-overlay"></div>
-
-        <!-- Модальное окно операций за день -->
-        <div class="modal" id="day-operations-modal" data-modal-type="day-operations">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="day-modal-title">Операции за 15.10.23</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="operations-sections">
-                        <section class="operations-section">
-                            <h3>Доходы</h3>
-                            <div id="income-categories" class="categories-list">
-                                <!-- Динамически генерируется -->
-                            </div>
-                        </section>
-                        <section class="operations-section">
-                            <h3>Расходы</h3>
-                            <div id="expense-categories" class="categories-list">
-                                <!-- Динамически генерируется -->
-                            </div>
-                        </section>
-                    </div>
-                    <div class="day-operations-list">
-                        <h3>Добавленные операции</h3>
-                        <div id="day-operations-container" class="operations-container">
-                            <!-- Динамически генерируется -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно добавления операции -->
-        <div class="modal" id="add-operation-modal" data-modal-type="add-operation">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="add-operation-title">Добавить операцию</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <form id="add-operation-form">
-                        <input type="hidden" id="operation-date">
-                        <input type="hidden" id="operation-type">
-                        <input type="hidden" id="operation-category">
-                        
-                        <div class="form-group">
-                            <label for="operation-amount">Сумма (₽)</label>
-                            <input type="number" id="operation-amount" required min="0" step="0.01">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="operation-description">Описание (необязательно)</label>
-                            <textarea id="operation-description" rows="3"></textarea>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" data-modal-close>Отмена</button>
-                            <button type="submit" class="btn btn-primary">Добавить</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно управления категориями -->
-        <div class="modal" id="category-manager-modal" data-modal-type="category-manager">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Управление категориями</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="categories-management">
-                        <div class="category-type-section">
-                            <h3>Доходы</h3>
-                            <div id="income-categories-list" class="categories-editable-list">
-                                <!-- Динамически генерируется -->
-                            </div>
-                            <form id="add-income-category-form" class="add-category-form">
-                                <input type="text" id="new-income-category" placeholder="Новая категория дохода" required>
-                                <button type="submit" class="btn btn-small">+</button>
-                            </form>
-                        </div>
-                        
-                        <div class="category-type-section">
-                            <h3>Расходы</h3>
-                            <div id="expense-categories-list" class="categories-editable-list">
-                                <!-- Динамически генерируется -->
-                            </div>
-                            <form id="add-expense-category-form" class="add-category-form">
-                                <input type="text" id="new-expense-category" placeholder="Новая категория расхода" required>
-                                <button type="submit" class="btn btn-small">+</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно отчета -->
-        <div class="modal" id="report-modal" data-modal-type="report">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Отчет за месяц</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="report-content">
-                        <div class="report-summary">
-                            <div class="report-summary-item">
-                                <span>Общий доход:</span>
-                                <span id="report-total-income" class="income">0 ₽</span>
-                            </div>
-                            <div class="report-summary-item">
-                                <span>Общий расход:</span>
-                                <span id="report-total-expense" class="expense">0 ₽</span>
-                            </div>
-                            <div class="report-summary-item">
-                                <span>Баланс:</span>
-                                <span id="report-balance" class="balance">0 ₽</span>
-                            </div>
-                        </div>
-                        
-                        <div class="report-categories">
-                            <div class="report-category-type">
-                                <h3>Доходы по категориям</h3>
-                                <div id="report-income-categories" class="categories-report">
-                                    <!-- Динамически генерируется -->
-                                </div>
-                            </div>
-                            <div class="report-category-type">
-                                <h3>Расходы по категориям</h3>
-                                <div id="report-expense-categories" class="categories-report">
-                                    <!-- Динамически генерируется -->
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="report-comparison">
-                            <h3>Сравнение с предыдущим месяцем</h3>
-                            <div id="month-comparison">
-                                <!-- Динамически генерируется -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно экспорта/импорта -->
-        <div class="modal" id="export-import-modal" data-modal-type="export-import">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Управление данными</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="data-management">
-                        <div class="export-section">
-                            <h3>Экспорт данных</h3>
-                            <div class="export-actions">
-                                <button id="export-download-btn" class="btn">Скачать JSON</button>
-                                <button id="export-copy-btn" class="btn">Копировать JSON</button>
-                            </div>
-                            <div class="export-preview">
-                                <label for="export-json-text">Предпросмотр:</label>
-                                <textarea id="export-json-text" readonly rows="6"></textarea>
-                            </div>
-                        </div>
-                        
-                        <div class="import-section">
-                            <h3>Импорт данных</h3>
-                            <div class="import-actions">
-                                <div class="file-input-container">
-                                    <input type="file" id="import-file-input" accept=".json">
-                                    <label for="import-file-input" class="btn">Загрузить файл</label>
-                                </div>
-                                <button id="import-paste-btn" class="btn">Вставить JSON</button>
-                            </div>
-                            <div class="import-preview">
-                                <label for="import-json-text">Вставьте JSON данные:</label>
-                                <textarea id="import-json-text" rows="6" placeholder='{"settings": {...}, "operations": [...]}'></textarea>
-                            </div>
-                            <button id="import-submit-btn" class="btn btn-danger">Импортировать (заменить все данные)</button>
-                        </div>
-                        
-                        <div class="clear-section">
-                            <h3>Очистка данных</h3>
-                            <button id="clear-data-btn" class="btn btn-danger">Полная очистка данных</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно подтверждения -->
-        <div class="modal" id="confirm-modal" data-modal-type="confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="confirm-title">Подтверждение</h2>
-                    <button class="btn-close" data-modal-close>×</button>
-                </div>
-                <div class="modal-body">
-                    <p id="confirm-message">Вы уверены?</p>
-                    <div class="confirm-actions">
-                        <button id="confirm-cancel" class="btn btn-secondary" data-modal-close>Отмена</button>
-                        <button id="confirm-ok" class="btn btn-danger">Подтвердить</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Уведомление -->
-        <div id="notification" class="notification"></div>
-    </div>
-
-    <!-- Скрипты -->
-    <script src="./assets/js/core/constants.js"></script>
-    <script src="./assets/js/core/utils.js"></script>
-    <script src="./assets/js/core/state.js"></script>
-    <script src="./assets/js/modules/data-manager.js"></script>
-    <script src="./assets/js/ui/modal-manager.js"></script>
-    <script src="./assets/js/modules/calendar.js"></script>
-    <script src="./assets/js/modules/operations.js"></script>
-    <script src="./assets/js/modules/categories.js"></script>
-    <script src="./assets/js/modules/reports.js"></script>
-    <script src="./assets/js/modules/export-import.js"></script>
-    <script src="./assets/js/ui/theme-switcher.js"></script>
-    <script src="./assets/js/ui/notifications.js"></script>
-    <script src="./assets/js/ui/header-controls.js"></script>
-    <script src="./assets/js/pwa/sw-register.js"></script>
-    <script src="./assets/js/core/app.js"></script>
-</body>
-
 </html>
