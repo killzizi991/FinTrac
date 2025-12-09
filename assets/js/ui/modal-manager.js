@@ -42,6 +42,87 @@ class ModalManager {
                 }
             }
         });
+        
+        // Инициализация обработчиков для настроек
+        this.initSettingsModal();
+        
+        // Инициализация обработчиков для итогов за месяц
+        this.initMonthSummaryModal();
+    }
+    
+    initSettingsModal() {
+        const settingsModal = this.modals.get(MODAL_TYPES.SETTINGS);
+        if (!settingsModal) return;
+        
+        // Обработчик для переключения темы
+        const themeBtn = settingsModal.querySelector('#modal-theme-switcher');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                themeSwitcher.toggleTheme();
+            });
+        }
+        
+        // Обработчик для экспорт/импорт
+        const exportImportBtn = settingsModal.querySelector('#modal-export-import-btn');
+        if (exportImportBtn) {
+            exportImportBtn.addEventListener('click', () => {
+                this.close(MODAL_TYPES.SETTINGS);
+                this.open(MODAL_TYPES.EXPORT_IMPORT);
+                initExportImport();
+            });
+        }
+        
+        // Обработчик для очистки данных
+        const clearDataBtn = settingsModal.querySelector('#modal-clear-data-btn');
+        if (clearDataBtn) {
+            clearDataBtn.addEventListener('click', () => {
+                this.close(MODAL_TYPES.SETTINGS);
+                this.showConfirm(
+                    'Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.',
+                    'Очистка всех данных'
+                ).then(confirmed => {
+                    if (confirmed) {
+                        if (clearAllData()) {
+                            generateCalendar();
+                            showNotification('Все данные очищены', NOTIFICATION_TYPES.SUCCESS);
+                        }
+                    }
+                });
+            });
+        }
+    }
+    
+    initMonthSummaryModal() {
+        const monthSummaryModal = this.modals.get(MODAL_TYPES.MONTH_SUMMARY);
+        if (!monthSummaryModal) return;
+        
+        // При открытии обновляем данные
+        monthSummaryModal.addEventListener('modal-open', () => {
+            const totals = calculateMonthTotals();
+            const prevTotals = getPreviousMonthTotals();
+            
+            document.getElementById('modal-total-income').textContent = formatCurrency(totals.income);
+            document.getElementById('modal-total-expense').textContent = formatCurrency(totals.expense);
+            document.getElementById('modal-total-balance').textContent = formatCurrency(totals.balance);
+            
+            const comparisonEl = document.getElementById('modal-comparison-text');
+            if (comparisonEl) {
+                const incomeChange = totals.income - prevTotals.income;
+                const expenseChange = totals.expense - prevTotals.expense;
+                
+                let comparisonText = 'Сравнение с предыдущим месяцем: ';
+                
+                if (incomeChange !== 0) {
+                    comparisonText += `Доходы: ${incomeChange > 0 ? '+' : ''}${formatCurrency(incomeChange)} `;
+                }
+                
+                if (expenseChange !== 0) {
+                    comparisonText += `Расходы: ${expenseChange > 0 ? '+' : ''}${formatCurrency(expenseChange)}`;
+                }
+                
+                comparisonEl.textContent = comparisonText;
+            }
+        });
     }
     
     open(type, data = null) {
