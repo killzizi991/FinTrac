@@ -41,7 +41,7 @@ class FinancialCalendarApp {
     initAppData() {
         // Инициализация данных приложения
         if (!initAppData()) {
-            showNotification('Ошибка загрузки данных. Используются значения по умолчанию.', NOTIFICATION_TYPES.WARNING);
+            console.log('Ошибка загрузки данных. Используются значения по умолчанию.');
         }
     }
     
@@ -170,7 +170,6 @@ class FinancialCalendarApp {
         document.addEventListener('data-imported', () => {
             generateCalendar();
             updateMonthSummary();
-            showNotification('Данные импортированы и обновлены', NOTIFICATION_TYPES.SUCCESS);
         });
         
         document.addEventListener('settings-changed', () => {
@@ -224,9 +223,6 @@ class FinancialCalendarApp {
     }
     
     startApp() {
-        // Показываем начальное уведомление
-        this.showWelcomeMessage();
-        
         // Проверяем обновления
         this.checkForAppUpdates();
         
@@ -237,23 +233,6 @@ class FinancialCalendarApp {
         document.dispatchEvent(new CustomEvent('app-ready'));
     }
     
-    showWelcomeMessage() {
-        // Проверяем, первое ли это посещение
-        const firstVisit = !localStorage.getItem('app_visited');
-        
-        if (firstVisit) {
-            localStorage.setItem('app_visited', 'true');
-            
-            setTimeout(() => {
-                showNotification(
-                    'Добро пожаловать в Финансовый календарь! Начните с добавления операций.',
-                    NOTIFICATION_TYPES.INFO,
-                    8000
-                );
-            }, 1000);
-        }
-    }
-    
     checkForAppUpdates() {
         // Проверяем версию приложения
         const savedVersion = localStorage.getItem('app_version');
@@ -262,13 +241,6 @@ class FinancialCalendarApp {
         if (savedVersion !== currentVersion) {
             // Обновление версии
             localStorage.setItem('app_version', currentVersion);
-            
-            if (savedVersion) {
-                showNotification(
-                    `Приложение обновлено до версии ${currentVersion}`,
-                    NOTIFICATION_TYPES.SUCCESS
-                );
-            }
         }
     }
     
@@ -320,7 +292,7 @@ class FinancialCalendarApp {
         });
         
         if (operations.length === 0) {
-            showNotification('Операции не найдены', NOTIFICATION_TYPES.INFO);
+            console.log('Операции не найдены');
             return;
         }
         
