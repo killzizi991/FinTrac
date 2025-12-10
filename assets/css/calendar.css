@@ -1,9 +1,218 @@
 /* assets/css/calendar.css */
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+    background: var(--primary-bg);
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #dbeafe;
+}
+
+.day-header {
+    text-align: center;
+    padding: 12px;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: white;
+    border-radius: 8px;
+    font-family: 'Secondary', sans-serif;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    padding: 16px;
+    background: white;
+    border: 2px solid #f1f5f9;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.calendar-day:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow);
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+}
+
+.calendar-day--current {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-color: var(--primary-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+.calendar-day--today {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    font-weight: bold;
+    border-color: var(--primary-dark);
+}
+
+.calendar-day--today:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    transform: translateY(-4px) scale(1.02);
+}
+
+.calendar-day--empty {
+    background: transparent;
+    cursor: default;
+    border: 2px dashed #e2e8f0;
+}
+
+.calendar-day--empty:hover {
+    transform: none;
+    border-color: #e2e8f0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.day-number {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: inherit;
+    font-family: 'Secondary', sans-serif;
+}
+
+.day-income {
+    color: var(--success-color);
+    font-size: 13px;
+    font-weight: 600;
+    background: #d1fae5;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 2px;
+}
+
+.day-expense {
+    color: var(--danger-color);
+    font-size: 13px;
+    font-weight: 600;
+    background: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 2px;
+}
+
+.day-total {
+    font-size: 15px;
+    font-weight: 800;
+    margin-top: 6px;
+    color: var(--dark-color);
+    background: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Убраны синие точки */
+/*
+.day-has-operations::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--primary-color);
+}
+
+.calendar-day--current .day-has-operations::after {
+    background: white;
+    box-shadow: 0 0 8px white;
+}
+*/
+
+.operations-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 12px;
+    display: flex;
+    gap: 3px;
+}
+
+.operations-indicator .income-dot {
+    color: var(--success-color);
+    text-shadow: 0 0 4px var(--success-color);
+}
+
+.operations-indicator .expense-dot {
+    color: var(--danger-color);
+    text-shadow: 0 0 4px var(--danger-color);
+}
+
+.day-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.day-summary {
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.3;
+    width: 100%;
+}
+
+.day-income-summary {
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.day-expense-summary {
+    color: var(--danger-color);
+    background: rgba(239, 68, 68, 0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.calendar-day--today .day-number {
+    color: white;
+}
+
+.calendar-day--today .day-income,
+.calendar-day--today .day-expense,
+.calendar-day--today .day-total {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
 @media (max-width: 768px) {
     .calendar-header {
         gap: 6px;
         padding: 10px;
-        margin-bottom: 12px;
     }
     
     .day-header {
@@ -11,51 +220,22 @@
         font-size: 14px;
     }
     
-    .calendar-grid {
-        gap: 6px;
-    }
-    
     .calendar-day {
-        padding: 12px 8px;
-        min-height: 70px;
+        padding: 12px;
     }
     
     .day-number {
         font-size: 16px;
-        margin-bottom: 6px;
     }
     
-    .day-income,
-    .day-expense {
+    .day-income, .day-expense {
         font-size: 11px;
         padding: 1px 6px;
-        margin-bottom: 1px;
     }
     
     .day-total {
         font-size: 13px;
         padding: 3px 6px;
-        margin-top: 4px;
-    }
-    
-    .day-content {
-        gap: 3px;
-    }
-    
-    .day-summary {
-        font-size: 11px;
-    }
-    
-    .day-income-summary,
-    .day-expense-summary {
-        padding: 1px 5px;
-        margin-bottom: 1px;
-    }
-    
-    .operations-indicator {
-        bottom: 6px;
-        right: 6px;
-        font-size: 10px;
     }
 }
 
@@ -70,13 +250,8 @@
         font-size: 12px;
     }
     
-    .calendar-grid {
-        gap: 4px;
-    }
-    
     .calendar-day {
-        padding: 8px 6px;
-        min-height: 60px;
+        padding: 8px;
     }
     
     .day-number {
@@ -84,8 +259,7 @@
         margin-bottom: 4px;
     }
     
-    .day-income,
-    .day-expense {
+    .day-income, .day-expense {
         font-size: 10px;
         padding: 1px 4px;
     }
@@ -93,59 +267,5 @@
     .day-total {
         font-size: 12px;
         padding: 2px 4px;
-        margin-top: 3px;
-    }
-    
-    .day-summary {
-        font-size: 10px;
-    }
-    
-    .day-income-summary,
-    .day-expense-summary {
-        padding: 1px 3px;
-    }
-    
-    .calendar-day:hover {
-        transform: translateY(-2px);
-    }
-    
-    .calendar-day--today:hover {
-        transform: translateY(-2px) scale(1.01);
-    }
-}
-
-@media (max-width: 360px) {
-    .calendar-header {
-        padding: 6px;
-    }
-    
-    .day-header {
-        padding: 6px 3px;
-        font-size: 11px;
-    }
-    
-    .calendar-day {
-        padding: 6px 4px;
-        min-height: 55px;
-    }
-    
-    .day-number {
-        font-size: 13px;
-        margin-bottom: 3px;
-    }
-    
-    .day-income,
-    .day-expense {
-        font-size: 9px;
-        padding: 0px 3px;
-    }
-    
-    .day-total {
-        font-size: 11px;
-        padding: 2px 3px;
-    }
-    
-    .day-summary {
-        font-size: 9px;
     }
 }
