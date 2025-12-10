@@ -51,10 +51,18 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('Service Worker: Кэширование файлов');
-                return cache.addAll(ASSETS_TO_CACHE);
+                // Кэшируем по одному файлу для обработки ошибок
+                return Promise.allSettled(
+                    ASSETS_TO_CACHE.map(url => {
+                        return cache.add(url).catch(error => {
+                            console.warn(`Не удалось кэшировать ${url}:`, error);
+                            return null;
+                        });
+                    })
+                );
             })
             .then(() => {
-                console.log('Service Worker: Все файлы закэшированы');
+                console.log('Service Worker: Все файлы обработаны');
                 return self.skipWaiting();
             })
             .catch((error) => {
