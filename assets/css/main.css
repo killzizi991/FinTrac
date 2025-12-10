@@ -218,22 +218,85 @@ body {
     gap: 12px;
 }
 
-@media (max-width: 992px) {
-    .main-content {
-        grid-template-columns: 1fr;
-    }
-}
-
 @media (max-width: 768px) {
     .app-container {
         padding: 16px;
+        gap: 16px;
     }
     
     .app-header {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .app-title {
+        font-size: 22px;
+    }
+    
+    .current-month-display {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    .header-controls {
+        gap: 8px;
+    }
+    
+    .icon-button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .calendar-section {
+        padding: 16px;
+    }
+    
+    .app-footer {
+        padding: 16px 0;
+        margin-top: 24px;
         flex-direction: column;
-        gap: 20px;
+        gap: 12px;
         align-items: stretch;
-        padding: 20px;
+    }
+    
+    .footer-info {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    
+    .status-indicator {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    
+    .install-button {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .app-header {
+        padding: 12px;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .header-left {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .app-title {
+        font-size: 20px;
     }
     
     .header-controls {
@@ -243,45 +306,22 @@ body {
     }
     
     .icon-button {
-        width: 44px;
-        height: 44px;
-    }
-    
-    .app-title {
-        font-size: 28px;
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
     }
     
     .calendar-section {
-        padding: 20px;
-    }
-    
-    .footer-info {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-    }
-}
-
-@media (max-width: 480px) {
-    .app-container {
         padding: 12px;
     }
     
-    .app-header {
-        padding: 16px;
+    .app-footer {
+        padding: 12px 0;
+        margin-top: 20px;
     }
     
-    .app-title {
-        font-size: 24px;
-    }
-    
-    .icon-button {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-    
-    .calendar-section {
-        padding: 16px;
+    .status-indicator {
+        font-size: 11px;
+        padding: 4px 10px;
     }
 }
