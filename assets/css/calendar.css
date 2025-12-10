@@ -127,6 +127,8 @@
     text-align: center;
 }
 
+/* Убраны синие точки */
+/*
 .day-has-operations::after {
     content: '';
     position: absolute;
@@ -144,6 +146,7 @@
     background: white;
     box-shadow: 0 0 8px white;
 }
+*/
 
 .operations-indicator {
     position: absolute;
