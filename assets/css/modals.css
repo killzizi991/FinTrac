@@ -138,10 +138,7 @@
     font-size: 18px;
     font-family: 'Secondary', sans-serif;
     font-weight: 700;
-    position: sticky;
-    top: 0;
     background: white;
-    z-index: 1;
 }
 
 .income-section h3 {
@@ -405,10 +402,7 @@
     background: linear-gradient(135deg, transparent, rgba(37, 99, 235, 0.1));
     padding: 10px;
     border-radius: 8px;
-    position: sticky;
-    top: 0;
     background: white;
-    z-index: 1;
 }
 
 .add-category-form {
@@ -454,8 +448,16 @@
 
 .managed-category-actions {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     flex-shrink: 0;
+}
+
+.managed-category-actions .icon-button {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    padding: 0;
+    border-radius: 6px;
 }
 
 .report-content {
@@ -787,23 +789,44 @@
     .category-report-content {
         grid-template-columns: 1fr;
         gap: 16px;
+        padding: 0;
+        background: none;
+        border: none;
     }
     
     .modal-content {
         width: 95%;
         margin: 16px auto;
+        max-height: calc(100vh - 32px);
+        height: auto;
+        display: block;
     }
     
     .modal-header {
         padding: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
     
     .modal-body {
         padding: 16px;
+        overflow-y: visible;
+        max-height: none;
     }
     
     .modal-header h2 {
         font-size: 18px;
+    }
+    
+    .operations-section,
+    .categories-section {
+        padding: 16px;
+        margin-bottom: 16px;
+        background: white;
+        border-radius: var(--border-radius);
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     
     .operations-section h3,
@@ -813,6 +836,9 @@
         font-size: 16px;
         padding: 8px;
         margin-bottom: 12px;
+        position: static;
+        top: auto;
+        z-index: auto;
     }
     
     .export-actions,
@@ -876,6 +902,12 @@
     .category-report-item:hover {
         padding: 8px;
     }
+    
+    .managed-category-actions .icon-button {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -890,14 +922,22 @@
         border-radius: 0;
         max-height: 100vh;
         height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
     
     .modal-header {
         padding: 12px 16px;
+        position: sticky;
+        top: 0;
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
     }
     
     .modal-body {
         padding: 12px 16px;
+        flex: 1;
+        overflow-y: auto;
     }
     
     .modal-header h2 {
@@ -909,6 +949,7 @@
     .report-summary,
     .report-categories {
         padding: 12px;
+        margin-bottom: 12px;
     }
     
     .category-button {
@@ -924,6 +965,7 @@
         font-size: 15px;
         padding: 6px;
         margin-bottom: 10px;
+        position: static;
     }
     
     .categories-list {
@@ -998,6 +1040,12 @@
         justify-content: flex-end;
     }
     
+    .managed-category-actions .icon-button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
     .add-category-form {
         flex-wrap: wrap;
     }
@@ -1034,6 +1082,16 @@
     .categories-report-list .category-report-item .expense {
         font-size: 14px;
     }
+    
+    .operations-sections,
+    .categories-manager {
+        gap: 12px;
+    }
+    
+    .operations-section:last-child,
+    .categories-section:last-child {
+        margin-bottom: 0;
+    }
 }
 
 /* Портретная ориентация на мобильных */
@@ -1048,9 +1106,8 @@
     
     .operations-sections,
     .categories-manager {
-        max-height: 60vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        max-height: none;
+        overflow-y: visible;
     }
 }
 
@@ -1066,10 +1123,5 @@
     
     .modal-body {
         max-height: 80vh;
-    }
-    
-    .operations-section h3,
-    .categories-section h3 {
-        position: static;
     }
 }
