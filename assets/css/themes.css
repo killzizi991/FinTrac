@@ -1,55 +1,176 @@
 /* assets/css/themes.css */
-@media (max-width: 768px) {
-    .dark-theme .calendar-header {
-        background: rgba(30, 41, 59, 0.8);
-    }
-    
-    .dark-theme .day-header {
-        background: rgba(51, 65, 85, 0.8);
-    }
-    
-    .dark-theme .categories-list {
-        scrollbar-color: #64748b #1e293b;
-    }
-    
-    .dark-theme .categories-list::-webkit-scrollbar-track {
-        background: #1e293b;
-    }
-    
-    .dark-theme .categories-list::-webkit-scrollbar-thumb {
-        background: #64748b;
-    }
+.light-theme {
+    --bg-color: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    --text-color: #1e293b;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --modal-bg: #ffffff;
+    --input-bg: #ffffff;
+    --hover-bg: #f8fafc;
+    --shadow-color: rgba(37, 99, 235, 0.15);
 }
 
-@media (max-width: 480px) {
-    .dark-theme .modal-content {
-        background: #475569;
-    }
-    
-    .dark-theme .modal-header {
-        background: linear-gradient(135deg, #475569, #4b5563);
-    }
-    
-    .dark-theme .operations-section,
-    .dark-theme .categories-section {
-        background: #4b5563;
-    }
-    
-    .dark-theme .category-button.income-category,
-    .dark-theme .category-button.expense-category {
-        background: #4b5563;
-    }
-    
-    .dark-theme .operation-item,
-    .dark-theme .managed-category {
-        background: #4b5563;
-    }
-    
-    .dark-theme .categories-report-list {
-        background: #4b5563;
-    }
-    
-    .dark-theme .categories-report-list .category-report-item {
-        background: #475569;
-    }
+.dark-theme {
+    --bg-color: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --text-color: #f1f5f9;
+    --card-bg: #334155;
+    --border-color: #475569;
+    --modal-bg: #475569;
+    --input-bg: #475569;
+    --hover-bg: #4b5563;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --primary-color: #60a5fa;
+    --primary-dark: #3b82f6;
+    --primary-light: #93c5fd;
+    --primary-bg: #1e40af;
+    --secondary-color: #94a3b8;
+    --success-color: #34d399;
+    --danger-color: #f87171;
+    --warning-color: #fbbf24;
+    --info-color: #22d3ee;
+    --light-color: #475569;
+    --dark-color: #f8fafc;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.calendar-section,
+.summary-card,
+.modal-content,
+.operations-section,
+.categories-section,
+.report-summary,
+.report-categories {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.modal {
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.calendar-day,
+.operation-item,
+.managed-category,
+.form-group input,
+.form-group select,
+.form-group textarea,
+.json-preview textarea,
+.json-input textarea,
+.category-button {
+    background: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.icon-button:hover,
+.primary-button:hover,
+.secondary-button:hover,
+.category-button:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)) !important;
+    color: white !important;
+}
+
+.modal-close:hover {
+    background: var(--danger-color) !important;
+    color: white !important;
+}
+
+.income-section,
+.expense-section {
+    background: var(--hover-bg);
+}
+
+.category-button.income-category,
+.category-button.expense-category {
+    background: var(--input-bg);
+}
+
+.operation-delete:hover {
+    background: linear-gradient(135deg, var(--danger-color), #dc2626) !important;
+}
+
+.file-input-label {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    color: white;
+}
+
+.import-warning {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+    border-color: #f59e0b;
+}
+
+.calendar-day--current {
+    background: linear-gradient(135deg, var(--primary-bg), var(--primary-color));
+}
+
+.calendar-day--today {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.calendar-header {
+    background: var(--primary-bg);
+    border-color: var(--border-color);
+}
+
+.day-header {
+    background: var(--card-bg);
+    color: var(--primary-color);
+}
+
+.categories-list .category-report-item,
+.categories-report-list .category-report-item {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.report-item.total {
+    background: var(--primary-bg);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--card-bg), var(--hover-bg));
+}
+
+.categories-report-list {
+    background: var(--hover-bg);
+    border-color: var(--border-color);
+}
+
+.empty-state {
+    background: var(--hover-bg);
+    border-color: var(--border-color);
+}
+
+.secondary-button {
+    background: var(--card-bg);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.secondary-button:hover {
+    background: var(--primary-bg);
+}
+
+.status-indicator {
+    background: var(--primary-bg);
+    border-color: var(--border-color);
+}
+
+.dark-theme .icon-button {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .primary-button {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .calendar-section:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
