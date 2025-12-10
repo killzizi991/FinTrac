@@ -30,6 +30,11 @@ class ModalManager {
                     this.close(type);
                 }
             });
+            
+            // Предотвращаем закрытие при клике внутри контента
+            modal.querySelector('.modal-content').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
         });
         
         // Глобальные обработчики для закрытия модальных окон
@@ -137,6 +142,10 @@ class ModalManager {
         // Закрываем текущее активное модальное окно
         this.closeAll();
         
+        // Предотвращаем прокрутку body
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+        
         // Устанавливаем данные если есть
         if (data) {
             this.setModalData(modal, data);
@@ -170,6 +179,10 @@ class ModalManager {
         // Скрываем модальное окно
         modal.classList.remove('active');
         setActiveModal(null);
+        
+        // Восстанавливаем прокрутку body
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
         
         // Очищаем данные
         this.clearModalData(modal);
