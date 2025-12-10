@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Финансовый календарь</title>
+    <link rel="preload" href="./assets/fonts/msin.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/sab.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/calendar.css">
     <link rel="stylesheet" href="./assets/css/modals.css">
@@ -12,7 +14,7 @@
     <link rel="stylesheet" href="./assets/css/ui-components.css">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" type="image/png" href="./assets/icons/icon-72x72.png">
-    <meta name="theme-color" content="#4a6cf7">
+    <meta name="theme-color" content="#2563eb">
 </head>
 <body class="light-theme">
     <div class="app-container">
@@ -28,7 +30,6 @@
                 <button id="prev-month" class="icon-button" aria-label="Предыдущий месяц">←</button>
                 <button id="next-month" class="icon-button" aria-label="Следующий месяц">→</button>
                 <button id="month-summary-btn" class="icon-button" aria-label="Итоги за месяц">📊</button>
-                <button id="category-manager-btn" class="icon-button" aria-label="Управление категориями">🏷️</button>
                 <button id="settings-btn" class="icon-button" aria-label="Настройки">⚙️</button>
                 <button id="add-operation-btn" class="icon-button" aria-label="Добавить операцию">+</button>
             </div>
@@ -162,7 +163,7 @@
             <div class="modal-body">
                 <div class="categories-manager">
                     <div class="categories-section">
-                        <h3>Категории доходов</h3>
+                        <h3>Категории доходы</h3>
                         <div class="categories-list" id="managed-income-categories">
                             <!-- Список категорий доходов -->
                         </div>
@@ -173,7 +174,7 @@
                     </div>
                     
                     <div class="categories-section">
-                        <h3>Категории расходов</h3>
+                        <h3>Категории расходы</h3>
                         <div class="categories-list" id="managed-expense-categories">
                             <!-- Список категорий расходов -->
                         </div>
@@ -296,12 +297,12 @@
                     </div>
                     
                     <div class="report-categories">
-                        <h3>Категории доходов</h3>
+                        <h3>Категории доходы</h3>
                         <div id="income-categories-report">
                             <!-- Отчет по категориям доходов -->
                         </div>
                         
-                        <h3>Категории расходов</h3>
+                        <h3>Категории расходы</h3>
                         <div id="expense-categories-report">
                             <!-- Отчет по категориям расходов -->
                         </div>
